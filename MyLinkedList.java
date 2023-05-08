@@ -48,11 +48,14 @@ public class MyLinkedList <V>{
         // if t is some inner element
 
             Node<V> temp = first;
-            while(temp.getPosition() != last.getPosition()+1){
+            while(temp.getPosition() >= last.getPosition()+1){
                 if(temp.getPosition() == index){
-                    temp.getPreviousElement().setPreviousElement(temp.getPreviousElement());
-                    temp.getNextElement().setPreviousElement(temp.getNextElement());
-                    while(temp.getPosition() < index){
+                    //connecting previous and next nodes between each other
+                    temp.getPreviousElement().setNextElement(temp.getNextElement());
+                    temp.getNextElement().setPreviousElement(temp.getPreviousElement());
+                    temp = null;
+                    //recalculating a positions for the next elements
+                    while(temp.getPosition() <= last.getPosition()){
                         temp.setPosition(temp.getPosition()-1);
                         temp = temp.getNextElement();
                     }
@@ -83,18 +86,31 @@ public class MyLinkedList <V>{
         Node<V> temp;
         if(last.getPosition()/2 > index){
             temp = (Node<V>) first;
-            while (temp.getPosition() != last.getPosition()){
+            while (temp.getPosition() < last.getPosition()){
                 if(temp.getPosition() == index) return temp.getCurrentElement();
+                else temp = temp.getNextElement();
             }
 
         }
         else{
             temp = (Node<V>) last;
-            while(temp.getPosition() != first.getPosition()){
+            while(temp.getPosition() > first.getPosition()){
                 if(temp.getPosition() == index) return temp.getCurrentElement();
+                else temp = temp.getPreviousElement();
             }
         }
         return null;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node tNode = first;
+        while(tNode.getPosition() < last.getPosition()){
+            sb.append(tNode.getCurrentElement()+" ");
+            tNode = tNode.getNextElement();
+        }
+        sb.append(last.getCurrentElement());
+        return sb.toString();
+    }
 }

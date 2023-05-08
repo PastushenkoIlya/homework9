@@ -1,7 +1,7 @@
 package homework9;
 
 public class MyHashMap<V,K>{
-    SDNode<V,K> [] array = new SDNode[5];
+    private SDNode<V,K> [] array = new SDNode[5];
 
     public void put(K key, V value){
 
@@ -71,16 +71,18 @@ public class MyHashMap<V,K>{
         }
         return count;
     }
-    public SDNode get(K key){
+    public K get(K key){
         int decider = key.hashCode()%5;
         if(array[decider] == null) return null;
         if(array[decider].getKey().equals(key)){
-            return array[decider];
+            return array[decider].getCurrentValue();
         }
         SDNode tNode = array[decider].getNext();
         while(true){
-            if(tNode.getKey().equals(key)) return tNode;
+            if(tNode.getNext().equals(null)) return null;
+            if(tNode.getKey().equals(key)) return (K) tNode.getCurrentValue();
             else tNode = tNode.getNext();
+
         }
     }
 

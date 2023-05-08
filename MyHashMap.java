@@ -71,16 +71,16 @@ public class MyHashMap<V,K>{
         }
         return count;
     }
-    public K get(K key){
+    public V get(K key){
         int decider = key.hashCode()%5;
         if(array[decider] == null) return null;
         if(array[decider].getKey().equals(key)){
-            return array[decider].getCurrentValue();
+            return (V)array[decider].getCurrentValue();
         }
         SDNode tNode = array[decider].getNext();
         while(true){
             if(tNode.getNext().equals(null)) return null;
-            if(tNode.getKey().equals(key)) return (K) tNode.getCurrentValue();
+            if(tNode.getKey().equals(key)) return (V)tNode.getCurrentValue();
             else tNode = tNode.getNext();
 
         }

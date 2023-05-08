@@ -48,17 +48,19 @@ public class MyLinkedList <V>{
         // if t is some inner element
 
             Node<V> temp = first;
-            while(temp.getPosition() >= last.getPosition()+1){
+            while(temp.getPosition() < last.getPosition()+1){
                 if(temp.getPosition() == index){
                     //connecting previous and next nodes between each other
                     temp.getPreviousElement().setNextElement(temp.getNextElement());
                     temp.getNextElement().setPreviousElement(temp.getPreviousElement());
-                    temp = null;
+
                     //recalculating a positions for the next elements
-                    while(temp.getPosition() <= last.getPosition()){
-                        temp.setPosition(temp.getPosition()-1);
+                    while(temp.getPosition() < last.getPosition()){
+                        temp.getNextElement().setPosition(temp.getNextElement().getPosition()-1);
+                        if(temp.getNextElement() != null)
                         temp = temp.getNextElement();
                     }
+                    return;
                 }
                 else{
                     temp = temp.getNextElement();
